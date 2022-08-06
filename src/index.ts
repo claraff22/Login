@@ -1,7 +1,5 @@
 import express, {json, Request, Response } from 'express'
 import mongoose from 'mongoose'
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import Clients from './services/Clients'
 
@@ -11,7 +9,7 @@ const app = express();
 const clients = new Clients();
 
 //Config
-app.use(json)
+app.use(express.json())
 
 //Credencials
 const dbUser = process.env.DATABASE_USER

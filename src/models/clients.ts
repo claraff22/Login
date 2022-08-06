@@ -1,9 +1,11 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
-const client = new Schema ({
+const ClientSchema = new mongoose.Schema({
     name: String,
     email: String,
     password: String
 })
 
-export default client
+const Client = mongoose.model('Client', ClientSchema)
+
+export default Client
