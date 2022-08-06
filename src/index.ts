@@ -2,11 +2,13 @@ import express, {json, Request, Response } from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import Clients from './services/Clients'
+import Users from './services/Users'
 
 dotenv.config();
 
-const app = express();
-const clients = new Clients();
+const app = express()
+const clients = new Clients()
+const users = new Users()
 
 //Config
 app.use(express.json())
@@ -17,8 +19,8 @@ const dbPass = process.env.DATABASE_PASS
 const PORT = process.env.SERVIDOR_PORT
 
 //Routes
-
 app.post('/auth/register', clients.insert)
+app.post('/auth/users', users.insert)
 
 //Connection with mongoose
 mongoose.connect(`mongodb+srv://${dbUser}:${dbPass}@cluster0.fges5am.mongodb.net/?retryWrites=true&w=majority`).then(() => {

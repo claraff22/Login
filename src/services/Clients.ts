@@ -41,7 +41,7 @@ class Clients {
         const user = new Client({
             name,
             email,
-            password
+            password: passwordHash,
         })
 
         try{
@@ -52,6 +52,7 @@ class Clients {
             res.status(500).json({msg: "Error, try again later."})
         }
     }
+    
 }
 
 export default Clients
