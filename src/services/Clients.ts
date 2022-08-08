@@ -51,6 +51,7 @@ class Clients {
         } catch(error) {
             res.status(500).json({msg: "Error, try again later."})
         }
+
     }
     
 }

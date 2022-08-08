@@ -19,6 +19,7 @@ const dbPass = process.env.DATABASE_PASS
 const PORT = process.env.SERVIDOR_PORT
 
 //Routes
+app.get('/user/:id', users.findOne)
 app.post('/auth/register', clients.insert)
 app.post('/auth/users', users.insert)
 
