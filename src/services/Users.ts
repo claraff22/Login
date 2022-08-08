@@ -56,30 +56,19 @@ class Users {
         const id = req.params.id
 
         //check if user exists
-        
         const userExists2 = await Client.findById(id, '-password')
 
         if(!userExists2) {
             return res.status(404).json({msg: "User not found"})
         }
 
-        //checkToken
-        const authHeader = req.headers['authorization']
-        const token = authHeader && authHeader.split(' ')[1]
+        try {
+            res.status(200).json({userExists2})
 
-        if(!token) {
-            return res.status(401).json({msg: "Access denied"})
-        }
-
-        try{
-            const secret = process.env.SECRET
-            jwt.verify(token, secret!)
-            return res.status(200).json({userExists2})
-
-        } catch(error){
-            res.status(400).json({msg:"Token invalid"})
-        }
-        
+        } catch (error){
+            console.log(error)
+            res.status(500).json({msg: "Error, try again later."})
+        }  
     }
     
 }
