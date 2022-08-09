@@ -8,7 +8,10 @@ import Client from '../models/clients'
 dotenv.config();
 
 class UsersUpdate{
-    async update(res: Response, req: Request){
+    async update(req: Request, res: Response){
+
+        const userName = req.params.name
+
         const {email, name, password, confirmPassword} = req.body
 
         //Validations
@@ -32,10 +35,16 @@ class UsersUpdate{
         const salt = await bcrypt.genSalt(12)
         const passwordHash = await bcrypt.hash(password, salt)
 
+        const user = new Client({
+            name,
+            email,
+            password: passwordHash,
+        })
 
         try {
-            await Client.findByIdAndUpdate(req.params.id, {name: name, email: email, password: passwordHash});
-            response.send()
+            await Client.findOneAndUpdate({name: userName}, user);
+            await user.save()
+            response.status(200).json({msg: "Update successfully"})
         } catch(error){
             console.log(error)
             res.status(500).json({msg: "Error, try again later."})

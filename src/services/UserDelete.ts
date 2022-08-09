@@ -5,17 +5,18 @@ import jwt from 'jsonwebtoken'
 import Client from '../models/clients'
 
 class UserDelete {
-    async delete(res: Response, req: Request) {
+    async delete(req: Request, res: Response) {
 
-        const userExists = await Client.findById(req.params.id)
-        console.log(userExists)
+        const name = req.params.name
+
+        const userExists = await Client.findOne({name: name})
 
         if(!userExists) {
             return res.status(404).json({msg: "User not found"})
         }
 
         try {
-            await Client.findByIdAndDelete(userExists)
+            await Client.findOneAndDelete({name})
             res.status(200).json({msg: `User deleted successfully` })
 
         } catch(error) {

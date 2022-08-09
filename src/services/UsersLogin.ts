@@ -6,7 +6,7 @@ import dotenv from 'dotenv'
 import Client from '../models/clients'
 
 dotenv.config();
-class Users {
+class UsersLogin {
 
     async insert(req: Request, res: Response) {
         //Login
@@ -73,4 +73,4 @@ class Users {
     
 }
 
-export default Users
+export default UsersLogin
