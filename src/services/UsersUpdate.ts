@@ -10,9 +10,7 @@ dotenv.config();
 class UsersUpdate{
     async update(req: Request, res: Response){
 
-        const userName = req.params.name
-
-        const {email, name, password, confirmPassword} = req.body
+        const {email, name, password, passwordConfirm} = req.body
 
         //Validations
         if(!name) {
@@ -27,7 +25,7 @@ class UsersUpdate{
             return res.status(422).json({msg: 'Password is required'})
         }
 
-        if(password !== confirmPassword) {
+        if(password !== passwordConfirm) {
             return res.status(422).json({msg: 'Password do not match'})
         }
 
@@ -35,21 +33,21 @@ class UsersUpdate{
         const salt = await bcrypt.genSalt(12)
         const passwordHash = await bcrypt.hash(password, salt)
 
-        const user = new Client({
-            name,
-            email,
-            password: passwordHash,
-        })
+        const filter = {name: req.params.name}
+
+        const user = {
+            name: req.body.name,
+            email: req.body.email,
+            password: passwordHash
+        }
 
         try {
-            await Client.findOneAndUpdate({name: userName}, user);
-            await user.save()
+            const clientUpdate = await Client.findOneAndUpdate(filter, user)
             response.status(200).json({msg: "Update successfully"})
         } catch(error){
             console.log(error)
             res.status(500).json({msg: "Error, try again later."})
         }
-
 
     }
 }
