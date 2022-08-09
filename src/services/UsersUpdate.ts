@@ -1,4 +1,4 @@
-import {NextFunction, Request, Response} from 'express'
+import {NextFunction, Request, response, Response} from 'express'
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
@@ -32,22 +32,14 @@ class UsersUpdate{
         const salt = await bcrypt.genSalt(12)
         const passwordHash = await bcrypt.hash(password, salt)
 
-        //create User
-        const user = new Client({
-            name: name,
-            email: email,
-            password: passwordHash,
-        })
 
         try {
-            await Client.findByIdAndUpdate(req.params.id, {name, email, password})
-            await user.save()
+            await Client.findByIdAndUpdate(req.params.id, {name: name, email: email, password: passwordHash});
+            response.send()
         } catch(error){
             console.log(error)
             res.status(500).json({msg: "Error, try again later."})
         }
-             
-
 
 
     }
