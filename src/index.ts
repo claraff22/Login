@@ -1,4 +1,4 @@
-import express, {json, Request, Response } from 'express'
+import express from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import Clients from './services/Clients'

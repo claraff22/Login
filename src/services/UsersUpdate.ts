@@ -1,10 +1,7 @@
-import {NextFunction, Request, response, Response} from 'express'
-import mongoose from 'mongoose'
+import {Request, Response} from 'express'
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import Client from '../models/clients'
-import { idText } from 'typescript'
 
 dotenv.config();
 
@@ -31,7 +28,7 @@ class UsersUpdate{
             return res.status(422).json({msg: 'Password do not match'})
         }
 
-        //check e-mail
+        // Validation check e-mail
         const emailExists = await Client.findOne({email: email}, {email: 1, id: 1})
         
         if (emailExists && emailExists.id !== id) {
@@ -42,6 +39,7 @@ class UsersUpdate{
         const salt = await bcrypt.genSalt(12)
         const passwordHash = await bcrypt.hash(password, salt)
 
+        //user
         const user = {
             name: req.body.name,
             email: req.body.email,

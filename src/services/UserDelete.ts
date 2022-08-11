@@ -1,7 +1,4 @@
 import {Request, Response} from 'express'
-import mongoose from 'mongoose'
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
 import Client from '../models/clients'
 
 class UserDelete {

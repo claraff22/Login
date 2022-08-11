@@ -1,5 +1,4 @@
-import {NextFunction, Request, Response} from 'express'
-import mongoose from 'mongoose'
+import {Request, Response} from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
