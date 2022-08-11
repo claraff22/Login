@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import Client from '../models/clients'
+import { idText } from 'typescript'
 
 dotenv.config();
 
@@ -30,7 +31,12 @@ class UsersUpdate{
             return res.status(422).json({msg: 'Password do not match'})
         }
 
-       
+        //check e-mail
+        const emailExists = await Client.findOne({email: email}, {email: 1, id: 1})
+        
+        if (emailExists && emailExists.id !== id) {
+            return res.status(422).json({msg: 'This e-mail is already being used'})
+        }
 
         //create Password
         const salt = await bcrypt.genSalt(12)
@@ -42,16 +48,13 @@ class UsersUpdate{
             password: passwordHash
         }
 
-        console.log(id, user, email)
 
         try {
             const clientUpdate = await Client.findByIdAndUpdate(id, user)
             await clientUpdate?.save()
-            console.log(clientUpdate)
-            response.status(200).json({msg: "Update successfully"})
+            res.status(200).json({msg: "Update successfully"})
 
-        } catch(error){
-            console.log(error)
+        } catch(error) {
             res.status(500).json({msg: "Error, try again later."})
         }
 
@@ -60,7 +63,3 @@ class UsersUpdate{
 
 export default UsersUpdate
 
-
-//  const emailExists = await Client.findOne({email: email})
-
-//if (emailExists && emailExists == email) {}
