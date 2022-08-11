@@ -27,8 +27,8 @@ const PORT = process.env.SERVIDOR_PORT
 app.get('/user/:id', authorization, users.findOne)
 app.post('/auth/register', clients.insert)
 app.post('/auth/users', users.insert)
-app.patch('/admin/update/:name', authorization, userUpdate.update)
-app.delete('/admin/delete/:name', authorization, remove.delete)
+app.patch('/admin/update/:id', authorization, userUpdate.update)
+app.delete('/admin/delete/:id', authorization, remove.delete)
 
 //Connection with mongoose
 mongoose.connect(`mongodb+srv://${dbUser}:${dbPass}@cluster0.fges5am.mongodb.net/?retryWrites=true&w=majority`).then(() => {
